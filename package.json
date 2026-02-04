@@ -10,6 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "server": "tsx server/index.ts",
     "server:watch": "tsx watch server/index.ts",
+    "start": "npm run server",
     "dev:all": "concurrently \"npm run server:watch\" \"npm run dev\"",
     "dev:backend": "npm run server:watch",
     "dev:frontend": "npm run dev"
