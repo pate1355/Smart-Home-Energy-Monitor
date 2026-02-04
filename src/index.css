@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-500;
+  }
+
+  /* Focus visible styles */
+  *:focus-visible {
+    outline: 2px solid rgb(16 185 129);
+    outline-offset: 2px;
+  }
+
+  .dark *:focus-visible {
+    outline-offset: 2px;
+  }
+
+  /* Selection colors */
+  ::selection {
+    background-color: rgb(167 243 208);
+    color: rgb(6 78 59);
+  }
+
+  .dark ::selection {
+    background-color: rgb(6 95 70);
+    color: rgb(209 250 229);
+  }
+}
+
+@layer components {
+  /* Card Components */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-soft-lg hover:-translate-y-1 hover:border-primary-200 dark:hover:border-primary-700;
+  }
+
+  .card-interactive {
+    @apply cursor-pointer active:scale-[0.98] transition-transform;
+  }
+
+  /* Button Components */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid rgb(16 185 129);
+    outline-offset: 2px;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-sm hover:shadow-md active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600;
+  }
+
+  .btn-ghost {
+    @apply text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700;
+  }
+
+  /* Input Components */
+  .input {
+    @apply px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-transparent transition-all;
+  }
+
+  .input:focus {
+    outline: 2px solid rgb(16 185 129);
+    outline-offset: 0px;
+  }
+
+  /* Badge Components */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300;
+  }
+
+  .badge-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
+  }
+
+  .badge-info {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+  }
+
+  /* Skeleton Loader */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+  }
+
+  .skeleton-shimmer {
+    @apply relative overflow-hidden bg-gray-200 dark:bg-gray-700 rounded;
+  }
+
+  .skeleton-shimmer::after {
+    content: "";
+    @apply absolute inset-0 animate-shimmer bg-shimmer;
+  }
+
+  /* Status Indicators */
+  .status-dot {
+    @apply w-2 h-2 rounded-full inline-block;
+  }
+
+  .status-online {
+    @apply bg-green-500 shadow-glow;
+  }
+
+  .status-offline {
+    @apply bg-gray-400;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200;
+  }
+
+  .tooltip-visible {
+    @apply opacity-100;
+  }
+}
+
+@layer utilities {
+  /* Text Gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-warm {
+    @apply bg-gradient-to-r from-amber-500 to-red-500 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-cool {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent;
+  }
+
+  /* Background Patterns */
+  .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dark .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+
+  /* Glass Morphism */
+  .glass {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md;
+  }
+
+  .glass-strong {
+    @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg;
+  }
+
+  /* Animations - These are already defined in Tailwind config, no need to redefine */
+
+  /* Number Formatting */
+  .number-display {
+    @apply font-mono font-bold tabular-nums;
+  }
+
+  /* Responsive Text */
+  .responsive-text-xl {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+
+  .responsive-text-2xl {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  .responsive-text-3xl {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  /* Hover Effects */
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-glow;
+  }
+
+  /* Container Utilities */
+  .container-custom {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-8xl;
+  }
+
+  /* Safe Areas for Mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
