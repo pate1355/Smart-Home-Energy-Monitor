@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Helper function for API calls
 async function apiCall<T>(
@@ -28,10 +28,10 @@ export const deviceAPI = {
   getById: (id: string) => apiCall(`/devices/${id}`),
   create: (device: any) => apiCall('/devices', { method: 'POST', body: JSON.stringify(device) }),
   update: (id: string, device: any) => apiCall(`/devices/${id}`, { method: 'PUT', body: JSON.stringify(device) }),
-  updateStatus: (id: string, status: 'on' | 'off') => 
+  updateStatus: (id: string, status: 'on' | 'off') =>
     apiCall(`/devices/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   delete: (id: string) => apiCall(`/devices/${id}`, { method: 'DELETE' }),
-  bulkUpdate: (devices: any[]) => 
+  bulkUpdate: (devices: any[]) =>
     apiCall('/devices/bulk', { method: 'POST', body: JSON.stringify({ devices }) }),
 };
 
@@ -47,7 +47,7 @@ export const energyAPI = {
   },
   getById: (id: string) => apiCall(`/energy/${id}`),
   create: (dataPoint: any) => apiCall('/energy', { method: 'POST', body: JSON.stringify(dataPoint) }),
-  bulkCreate: (dataPoints: any[]) => 
+  bulkCreate: (dataPoints: any[]) =>
     apiCall('/energy/bulk', { method: 'POST', body: JSON.stringify({ dataPoints }) }),
   delete: (id: string) => apiCall(`/energy/${id}`, { method: 'DELETE' }),
   getStats: (params?: { startDate?: string; endDate?: string }) => {
@@ -66,7 +66,7 @@ export const goalAPI = {
   getById: (id: string) => apiCall(`/goals/${id}`),
   create: (goal: any) => apiCall('/goals', { method: 'POST', body: JSON.stringify(goal) }),
   update: (id: string, goal: any) => apiCall(`/goals/${id}`, { method: 'PUT', body: JSON.stringify(goal) }),
-  updateProgress: (id: string, current: number) => 
+  updateProgress: (id: string, current: number) =>
     apiCall(`/goals/${id}/progress`, { method: 'PATCH', body: JSON.stringify({ current }) }),
   delete: (id: string) => apiCall(`/goals/${id}`, { method: 'DELETE' }),
 };
@@ -80,13 +80,13 @@ export const recommendationAPI = {
     return apiCall(`/recommendations${query ? `?${query}` : ''}`);
   },
   getById: (id: string) => apiCall(`/recommendations/${id}`),
-  create: (recommendation: any) => 
+  create: (recommendation: any) =>
     apiCall('/recommendations', { method: 'POST', body: JSON.stringify(recommendation) }),
-  bulkCreate: (recommendations: any[]) => 
+  bulkCreate: (recommendations: any[]) =>
     apiCall('/recommendations/bulk', { method: 'POST', body: JSON.stringify({ recommendations }) }),
-  update: (id: string, recommendation: any) => 
+  update: (id: string, recommendation: any) =>
     apiCall(`/recommendations/${id}`, { method: 'PUT', body: JSON.stringify(recommendation) }),
-  markImplemented: (id: string, implemented: boolean) => 
+  markImplemented: (id: string, implemented: boolean) =>
     apiCall(`/recommendations/${id}/implement`, { method: 'PATCH', body: JSON.stringify({ implemented }) }),
   delete: (id: string) => apiCall(`/recommendations/${id}`, { method: 'DELETE' }),
 };
@@ -95,11 +95,11 @@ export const recommendationAPI = {
 export const achievementAPI = {
   getAll: () => apiCall('/achievements'),
   getById: (id: string) => apiCall(`/achievements/${id}`),
-  create: (achievement: any) => 
+  create: (achievement: any) =>
     apiCall('/achievements', { method: 'POST', body: JSON.stringify(achievement) }),
-  bulkCreate: (achievements: any[]) => 
+  bulkCreate: (achievements: any[]) =>
     apiCall('/achievements/bulk', { method: 'POST', body: JSON.stringify({ achievements }) }),
-  update: (id: string, achievement: any) => 
+  update: (id: string, achievement: any) =>
     apiCall(`/achievements/${id}`, { method: 'PUT', body: JSON.stringify(achievement) }),
   unlock: (id: string) => apiCall(`/achievements/${id}/unlock`, { method: 'PATCH' }),
   delete: (id: string) => apiCall(`/achievements/${id}`, { method: 'DELETE' }),
@@ -116,7 +116,7 @@ export const scheduleAPI = {
   },
   getById: (id: string) => apiCall(`/schedules/${id}`),
   create: (schedule: any) => apiCall('/schedules', { method: 'POST', body: JSON.stringify(schedule) }),
-  update: (id: string, schedule: any) => 
+  update: (id: string, schedule: any) =>
     apiCall(`/schedules/${id}`, { method: 'PUT', body: JSON.stringify(schedule) }),
   delete: (id: string) => apiCall(`/schedules/${id}`, { method: 'DELETE' }),
 };
@@ -131,11 +131,11 @@ export const notificationAPI = {
     return apiCall(`/notifications${query ? `?${query}` : ''}`);
   },
   getById: (id: string) => apiCall(`/notifications/${id}`),
-  create: (notification: any) => 
+  create: (notification: any) =>
     apiCall('/notifications', { method: 'POST', body: JSON.stringify(notification) }),
-  bulkCreate: (notifications: any[]) => 
+  bulkCreate: (notifications: any[]) =>
     apiCall('/notifications/bulk', { method: 'POST', body: JSON.stringify({ notifications }) }),
-  markRead: (id: string, read: boolean) => 
+  markRead: (id: string, read: boolean) =>
     apiCall(`/notifications/${id}/read`, { method: 'PATCH', body: JSON.stringify({ read }) }),
   markAllRead: () => apiCall('/notifications/read/all', { method: 'PATCH' }),
   delete: (id: string) => apiCall(`/notifications/${id}`, { method: 'DELETE' }),
