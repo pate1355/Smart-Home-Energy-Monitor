@@ -62,7 +62,7 @@ export const generateChatResponse = async (
   try {
     const systemContext = buildSystemContext(userMessage, devices, energyData, chatHistory);
 
-    const response = await fetch('/api/ai/chat', {
+    const response = await fetch(`${API_BASE_URL}/ai/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -114,7 +114,7 @@ export const generateStreamingChatResponse = async function* (
   try {
     const systemContext = buildSystemContext(userMessage, devices, energyData, chatHistory);
 
-    const response = await fetch('/api/ai/chat', {
+    const response = await fetch(`${API_BASE_URL}/ai/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
