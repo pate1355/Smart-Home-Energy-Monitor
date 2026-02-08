@@ -1,4 +1,5 @@
 import { Device, EnergyDataPoint, Recommendation } from './types';
+import { API_BASE_URL } from './services/api';
 
 // Generate energy recommendations using Groq AI via backend
 export const generateRecommendations = async (
@@ -54,7 +55,7 @@ Example format:
 }`;
 
     // Call backend API
-    const response = await fetch('/api/ai/recommendations', {
+    const response = await fetch(`${API_BASE_URL}/ai/recommendations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })

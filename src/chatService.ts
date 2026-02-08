@@ -1,4 +1,5 @@
 import { Device, EnergyDataPoint, ChatMessage } from './types';
+import { API_BASE_URL } from './services/api';
 
 // Helper to build the system context prompt
 const buildSystemContext = (
