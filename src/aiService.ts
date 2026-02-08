@@ -84,7 +84,7 @@ Example format:
 
     if (recommendations.length > 0) {
       return recommendations.map((rec: any, index: number) => ({
-        id: `rec-${Date.now()}-${index}`,
+        id: `rec-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
         title: rec.title,
         description: rec.description,
         potentialSavings: typeof rec.potentialSavings === 'number' ? rec.potentialSavings : parseFloat(rec.potentialSavings) || 0,

@@ -273,7 +273,7 @@ function App() {
 
               // Create notification
               const notification: Notification = {
-                id: `sched-${Date.now()}-${schedule.id}`,
+                id: `sched-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
                 type: 'info',
                 title: 'Scheduled Action',
                 message: `Turned ${schedule.action.toUpperCase()} ${device.name} based on schedule`,
@@ -302,7 +302,7 @@ function App() {
       setSchedulingDevice(null);
       
       const notification: Notification = {
-        id: `new-sched-${Date.now()}`,
+        id: `new-sched-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         title: "Schedule Set",
         message: `Device scheduled for ${schedule.time}`,
         type: "success",
@@ -373,7 +373,7 @@ function App() {
           energyData.slice(-5).reduce((sum, d) => sum + d.consumption, 0) / 5;
         if (newDataPoint.consumption > recentAvg * 1.5) {
           const spikeNotif: Notification = {
-            id: `notif-${Date.now()}`,
+            id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
             type: "spike",
             title: "High Usage Detected",
             message: `Current consumption is ${(
@@ -410,7 +410,7 @@ function App() {
 
       if (recs.length > 0) {
         const notif: Notification = {
-          id: `notif-${Date.now()}`,
+          id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           type: "recommendation",
           title: "New Recommendations Available",
           message: `${recs.length} new energy-saving tips generated`,
@@ -454,7 +454,7 @@ function App() {
       const isPeak = currentHour >= 16 && currentHour < 21;
       if (newStatus === 'on' && isPeak && device.wattage > 500) {
         addNotification({
-          id: `tou-${Date.now()}`,
+          id: `tou-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           type: 'recommendation',
           title: 'Peak Hour Warning',
           message: `${device.name} uses high power. Running it after 9 PM could save you ~40% on cost.`,
@@ -479,7 +479,7 @@ function App() {
       );
 
       addNotification({
-        id: `notif-${Date.now()}`,
+        id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: "recommendation",
         title: "Recommendation Implemented",
         message: "Great job! Track your savings over the next few days.",
@@ -526,7 +526,7 @@ function App() {
             hasUpdates = true;
             
             const achNotif: Notification = {
-              id: `ach-${Date.now()}`,
+              id: `ach-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
               type: "achievement",
               title: "Achievement Unlocked!",
               message: `You earned: ${updatedAchievements[index].title}`,
@@ -586,7 +586,7 @@ function App() {
     downloadCSV(csv, `energy-data-${currentPeriod}-${Date.now()}.csv`);
 
     addNotification({
-      id: `notif-${Date.now()}`,
+      id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: "goal",
       title: "Data Exported",
       message: "Your energy data has been downloaded successfully",
@@ -611,7 +611,7 @@ function App() {
     loadWeather();
     
     addNotification({
-      id: `notif-${Date.now()}`,
+      id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: "success",
       title: "Location Updated",
       message: `Weather data for ${name} is now active`,
@@ -641,7 +641,7 @@ function App() {
       });
 
       addNotification({
-        id: `notif-${Date.now()}`,
+        id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: "goal",
         title: "New Goal Set",
         message: `Target set to ${target} kWh ${type}`,

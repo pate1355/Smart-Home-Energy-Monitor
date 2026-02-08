@@ -39,7 +39,14 @@ router.post('/chat', async (req, res) => {
 
     } catch (error: any) {
         console.error("Groq Chat Error:", error);
-        res.status(500).json({ error: error.message || 'Failed to process chat request' });
+        console.error("Error details:", error.response?.data || error.message);
+        // Ensure we don't crash the server, send a proper 500
+        if (!res.headersSent) {
+            res.status(500).json({
+                error: error.message || 'Failed to process chat request',
+                details: error.response?.data
+            });
+        }
     }
 });
 
@@ -62,7 +69,14 @@ router.post('/recommendations', async (req, res) => {
 
     } catch (error: any) {
         console.error("Groq Recommendations Error:", error);
-        res.status(500).json({ error: error.message || 'Failed to generate recommendations' });
+        console.error("Error details:", error.response?.data || error.message);
+
+        if (!res.headersSent) {
+            res.status(500).json({
+                error: error.message || 'Failed to generate recommendations',
+                details: error.response?.data
+            });
+        }
     }
 });
 
