@@ -13,7 +13,6 @@ import {
   MessageCircle,
   Menu,
   X,
-  MapPin,
   Loader,
 } from "lucide-react";
 import {
@@ -49,6 +48,7 @@ import WeatherWidget from "./components/WeatherWidget";
 import TOUIndicator from "./components/TOUIndicator";
 import ScheduleModal from "./components/ScheduleModal";
 import LocationModal from "./components/LocationModal";
+import SettingsModal from "./components/SettingsModal";
 import SchedulesPanel from "./components/SchedulesPanel";
 import api from "./services/api";
 
@@ -1091,89 +1091,32 @@ function App() {
           </>
         )}
 
-        {/* Settings Panel */}
+        {/* Settings Modal */}
         {showSettings && (
-          <>
-            <div
-              className="fixed inset-0 z-[60]"
-              onClick={() => setShowSettings(false)}
-            />
-            <div className="fixed right-0 left-0 mx-4 sm:mx-0 sm:right-4 sm:left-auto top-20 sm:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl z-[70] p-4 border border-gray-100 dark:border-gray-700">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white">
-                AI Recommendations
-              </h3>
-              <button
-                onClick={() => setShowSettings(false)}
-                className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                aria-label="Close recommendations"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div className="bg-gradient-to-r from-eco-50 to-energy-50 dark:from-eco-900/20 dark:to-energy-900/20 p-4 rounded-lg border-2 border-eco-300 dark:border-eco-700">
-                <div className="flex items-start space-x-2">
-                  <Sparkles className="w-5 h-5 text-eco-600 dark:text-eco-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
-                      FREE Unlimited AI! 🎉
-                    </h4>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      This app uses Puter.js to provide completely free,
-                      unlimited access to Claude AI - no API keys needed!
-                    </p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      Powered by Claude Sonnet 4.5 via Puter.js
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  fetchRecommendations();
-                  setShowSettings(false);
-                }}
-                disabled={isLoading}
-                className="w-full px-4 py-2 bg-gradient-to-r from-eco-500 to-energy-500 text-white rounded-lg hover:from-eco-600 hover:to-energy-600 transition-colors disabled:opacity-50 font-medium"
-              >
-                {isLoading
-                  ? "Generating AI Recommendations..."
-                  : "Generate AI Recommendations"}
-              </button>
-              <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-                No sign-up required • Completely free • Powered by Puter.js
-              </p>
-              
-              {/* Location Settings */}
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Weather Location
-                    </span>
-                  </div>
-                </div>
-                {userLocationName && (
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-                    Current: {userLocationName}
-                  </p>
-                )}
-                <button
-                  onClick={() => {
-                    setShowLocationModal(true);
-                    setShowSettings(false);
-                  }}
-                  className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
-                >
-                  <MapPin className="w-4 h-4" />
-                  {userLocationName ? "Change Location" : "Set Location"}
-                </button>
-              </div>
-            </div>
-          </div>
-          </>
+          <SettingsModal
+            onClose={() => setShowSettings(false)}
+            userLocationName={userLocationName}
+            onOpenLocationModal={() => {
+              setShowSettings(false);
+              setShowLocationModal(true);
+            }}
+            onExportData={handleExport}
+            onClearData={async () => {
+              try {
+                // Clear all data collections
+                await Promise.all([
+                  api.notification.deleteAll(),
+                  api.energy.cleanup(0), // Delete all energy data
+                  // Ideally we'd have a full reset endpoint, but this works for now
+                ]);
+                localStorage.removeItem('userLocation');
+                window.location.reload();
+              } catch (err) {
+                console.error("Failed to clear data:", err);
+                setError("Failed to clear data. Please try again.");
+              }
+            }}
+          />
         )}
 
         {/* Main Content */}
