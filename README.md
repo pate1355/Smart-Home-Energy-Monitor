@@ -2,6 +2,9 @@
 
 An AI-powered smart home energy monitoring application built with React, TypeScript, and a Node.js/MongoDB backend. This application simulates IoT device monitoring, provides real-time energy consumption visualization, and offers AI-generated recommendations for optimizing energy usage using Groq AI.
 
+![Project Preview](screencapture-smart-home-energy-monitor.png)
+
+
 ## 🚀 Features
 
 - **🤖 Groq-Powered AI Assistant**: Ask questions about your energy usage and get instant, personalized answers powered by Llama 3.3.
