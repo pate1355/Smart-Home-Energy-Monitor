@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   MapPin,
+  Loader,
 } from "lucide-react";
 import {
   Device,
@@ -77,8 +78,29 @@ function App() {
   // Error state
   const [error, setError] = useState<string | null>(null);
 
-  // Initialize data from MongoDB
+  // Backend Health Check State
+  const [isBackendReady, setIsBackendReady] = useState(false);
+  const [healthCheckAttempts, setHealthCheckAttempts] = useState(0);
+
+  // Check Backend Health
   useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        await api.health.check();
+        setIsBackendReady(true);
+      } catch (err) {
+        console.log("Backend not ready yet, retrying...");
+        setHealthCheckAttempts(prev => prev + 1);
+        setTimeout(checkHealth, 2000); // Retry every 2 seconds
+      }
+    };
+    checkHealth();
+  }, []);
+
+  // Initialize data from MongoDB (only after backend is ready)
+  useEffect(() => {
+    if (!isBackendReady) return;
+
     const loadInitialData = async () => {
       setIsLoading(true);
       setError(null);
@@ -213,7 +235,7 @@ function App() {
       }
     };
     loadInitialData();
-  }, [currentPeriod]);
+  }, [currentPeriod, isBackendReady]);
 
   // Check for stored location on mount
   useEffect(() => {
@@ -675,6 +697,31 @@ function App() {
 
   return (
     <div className={`min-h-screen ${darkMode ? "dark" : ""}`}>
+      {/* Backend Wake-up Loader */}
+      {!isBackendReady && (
+        <div className="fixed inset-0 z-[200] bg-white dark:bg-gray-900 flex flex-col items-center justify-center p-4 transition-colors duration-300">
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-primary-500/20 blur-xl rounded-full animate-pulse"></div>
+            <div className="relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+              <Zap className="w-12 h-12 text-primary-500 animate-pulse" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 text-center">
+            Waking up the server...
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 text-center max-w-md mb-8 leading-relaxed">
+            Since this is a free instance, it may take up to 50 seconds to spin up. 
+            Thank you for your patience! 🚀
+          </p>
+          <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700">
+            <Loader className="w-4 h-4 text-primary-500 animate-spin" />
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+              Attempt {healthCheckAttempts + 1}...
+            </span>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="fixed top-0 left-0 right-0 z-[100] bg-red-600 text-white px-4 py-2 flex items-center justify-between shadow-lg">
           <div className="flex items-center gap-2">
